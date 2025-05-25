@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CLD-Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: monospace;
+      background-color: #111;
+      color: #eee;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 60px 20px 40px;
+      text-align: center;
+      background: black;
+      line-height: 1.23;
+    }
+
+    .dot-text pre {
+      font-size: 14px;
+      white-space: pre;
+      color: #555;
+    }
+
+    .shine {
+      color: #00ffff;
+      animation: glow 3s infinite alternate, fadein 2s ease-in;
+    }
+
+    @keyframes glow {
+      0%   { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
+      50%  { color: #ffffff; text-shadow: 0 0 15px #00ffff; }
+      100% { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 30px 0;
+      z-index: 1;
+    }
+    .buttons a {
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+.buttons button:active {
+transform: scale(0.95);
+}
+    .buttons button {
+      background-color: #00ffff;
+      color: #000;
+      padding: 10px 15px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: white;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      font: 15px/1.5 Arial, Helvetica,sans-serif;
+    }
+
+    .card {
+      background-color: #222;
+      color: #fff;
+      border-radius: 8px;
+      width: 300px;
+      max-width: 90%;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 0 10px #000;
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .card-title {
+      padding: 10px;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+    .card-title:hover {
+color: #00ffff;
+}
+.card a {
+  text-decoration: none;
+  color: inherit;
+   -webkit-tap-highlight-color: transparent;
+}
+.card:active {
+transform: scale(0.95);
+}
+    footer {
+      background-color: #111;
+      color: #888;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: #00ffff;
+      margin: 0 10px;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    footer a:hover {
+      text-decoration: none;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="dot-text">
+      <pre>
+░░░░░░░░░░░░░░░░░░░░░░░░░░ 
+░░<span class="shine">█████╗</span>░<span class="shine">██╗</span>░░░░░<span class="shine">██████╗</span>░░
+░<span class="shine">██╔══██╗██║</span>░░░░░<span class="shine">██╔══██╗</span>░
+░<span class="shine">██║</span>░░<span class="shine">╚═╝██║</span>░░░░░<span class="shine">██║</span>░░<span class="shine">██║</span>░
+░<span class="shine">██║</span>░░<span class="shine">██╗██║</span>░░░░░<span class="shine">██║</span>░░<span class="shine">██║</span>░
+░<span class="shine">╚█████╔╝███████╗██████╔╝</span>░
+░░<span class="shine">╚════╝</span>░<span class="shine">╚══════╝╚═════╝</span>░░
+░░░░░░░░░░░░░░░░░░░░░░░░░░ 
+      </pre>
+    </div>
+
+    <div class="buttons">
+      <a href="Code View.html" target="_blank"><button>Code View</button></a>
+      <a href="WebUrl view.html" target="_blank"><button>WebURL View</button></a>
+      <a href="Html Project.html" target="_blank"><button>HTML Project</button></a>
+    </div>
+  </section>
+
+<section class="cards">
+  <div class="card">
+    <a href="https://daneyzp.github.io/Custom-Layout-Design-/index.html" target="_blank">
+      <img src="digital shopping.jpg" alt="Project Image 1" />
+    </a>
+    <a href="https://daneyzp.github.io/Custom-Layout-Design-/index.html" target="_blank">
+      <div class="card-title">Digital Shopping</div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="https://daneyzp.github.io/My-Article/" target="_blank">
+      <img src="article.jpg" alt="Project Image 2" />
+    </a>
+    <a href="https://daneyzp.github.io/My-Article/" target="_blank">
+      <div class="card-title">Article</div>
+    </a>
+  </div>
+</section>
+
+  <footer>
+    <div>
+      <a href="index_About.html">About</a>|<a href="index_Privacy.html">Privacy Policy</a>|<a href="index_Disclaimer.html">Disclaimer</a>|<a href="index_T&c.html">T&C</a>
+    </div>
+    <div style="margin-top: 10px;">
+      &copy; 2025 CLD. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>

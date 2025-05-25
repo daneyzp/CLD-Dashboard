@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebURL View - Blogger, Wordpress...</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e1e;
+      color: white;
+    }
+    header {
+      background: #222;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      position: relative;
+      z-index: 10;
+    }
+    .menu-toggle {
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 15px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #333;
+      color: white;
+      transition: left 0.3s;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .sidebar.active {
+      left: 0;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
+    .overlay.active {
+      display: block;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+      padding: 10px 20px;
+    }
+    .buttons.top-buttons {
+      justify-content: flex-start;
+    }
+    .buttons.run-button {
+      justify-content: center;
+      padding-top: 15px;
+    }
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+      border: none;
+      background: #444;
+      color: white;
+      border-radius: 3px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button.active {
+      background: #1e90ff;
+    }
+    button-url {
+      padding: 8px 12px;
+      cursor: pointer;
+      border: none;
+      background: #444;
+      color: white;
+      font-family: bold;
+      border-radius: 3px;
+      -webkit-tap-highlight-color: transparent;
+      }
+      button-url:hover {
+          background: #1e90ff;
+      }
+    .preview-screen {
+      width: 100%;
+      border: 2px solid #444;
+      overflow: auto;
+      background: white;
+      margin: auto;
+      border-radius: 5px;
+    }
+    .desktop-frame {
+      width: 1024px;
+      height: 600px;
+    }
+    .mobile-frame {
+      width: 375px;
+      height: 667px;
+    }
+    #url-input {
+      flex: 1 1 30%;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border: 1px solid #555;
+      border-radius: 5px;
+    }
+    @media (max-width: 768px) {
+      .desktop-frame {
+        width: 100%;
+        max-width: 100%;
+        height: 400px;
+      }
+      .mobile-frame {
+        width: 375px;
+        max-width: 100%;
+        height: 667px;
+      }
+      .editor {
+        flex: 1 1 100%;
+        border-radius: 5px;
+      }
+      .editor textarea {
+        height: 250px;
+        border-radius: 5px;
+      }
+    }
+    .tool-links {
+      list-style: none;
+      padding: 10px 0;
+    }
+    .tool-links li {
+      margin-bottom: 8px;
+    }
+    .tool-links a {
+      color: white;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tool-links a:hover {
+      text-decoration: none;
+      color: #1e90ff;
+    }
+    .social-text {
+        margin-top: 5px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .social-icons svg {
+      transition: transform 0.2s;
+    }
+    .social-icons a:hover svg {
+      transform: scale(1.2);
+    }
+   .site-footer {
+  background: #222;
+  padding: 20px;
+  text-align: center;
+  color: #ccc;
+  margin-top: 30px;
+  border-top: 1px solid #444;
+}
+.site-footer a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.site-footer a:hover {
+  text-decoration: none;
+  color: #1e90ff;
+}
+.footer-copy {
+  margin-top: 10px;
+  font-size: 14px;
+}
+}
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <h2>Tools</h2>
+    <ul class="tool-links">
+<li><a href="index.html"><h5><b>•</b> Dashboard</h5></a></li>
+      <li><a href="Code View.html"><h5><b>•</b> Code View</h5></a></li>      
+      <li><a href="Html Project.html"><h5><b>•</b> HTML Project</h5></a></li>
+      
+    </ul>
+    <div class="social-text"><h3>Follow Us</h3></div>
+    <div class="social-icons">
+      <a href="https://twitter.com/yourprofile" target="_blank" aria-label="Twitter">
+        <svg height="24" width="24" fill="white" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 0 0 1.88-2.37 8.6 8.6 0 0 1-2.72 1.03 4.3 4.3 0 0 0-7.37 3.93 12.17 12.17 0 0 1-8.83-4.48 4.3 4.3 0 0 0 1.33 5.73 4.3 4.3 0 0 1-1.95-.54v.05a4.3 4.3 0 0 0 3.45 4.2 4.3 4.3 0 0 1-1.94.07 4.3 4.3 0 0 0 4.01 2.98A8.63 8.63 0 0 1 2 19.55a12.18 12.18 0 0 0 6.59 1.93c7.9 0 12.23-6.56 12.23-12.24l-.01-.56A8.68 8.68 0 0 0 24 5.2a8.43 8.43 0 0 1-2.54.7z"/></svg>
+      </a>
+      <a href="https://github.com/yourprofile" target="_blank" aria-label="GitHub">
+        <svg height="24" width="24" fill="white" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.38 0 12a12 12 0 0 0 8.2 11.44c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61a3.2 3.2 0 0 0-1.34-1.76c-1.1-.76.09-.75.09-.75a2.53 2.53 0 0 1 1.85 1.25 2.54 2.54 0 0 0 3.47 1 2.54 2.54 0 0 1 .76-1.6c-2.67-.3-5.48-1.34-5.48-5.95a4.65 4.65 0 0 1 1.24-3.23 4.3 4.3 0 0 1 .12-3.19s1-.32 3.3 1.24a11.4 11.4 0 0 1 6 0c2.3-1.56 3.3-1.24 3.3-1.24a4.3 4.3 0 0 1 .12 3.19 4.65 4.65 0 0 1 1.24 3.23c0 4.62-2.81 5.65-5.49 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 24 12c0-6.62-5.37-12-12-12z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <header>
+    <span class="menu-toggle" id="menu-toggle">&#9776;</span>
+    <h1>WebURL View</h1>
+  </header>
+
+  <div class="buttons top-buttons">
+    <button id="mobile-btn">Mobile</button>
+    <button id="desktop-btn" class="active">Desktop</button>
+  </div>
+
+  <div class="preview-screen desktop-frame" id="preview-box">
+    <iframe id="output-frame" style="width:100%; height:100%; border: none;"></iframe>
+  </div>
+
+  <div class="buttons run-button">
+  <input type="text" id="url-input" placeholder="Enter full website URL (https://...)" style="padding: 8px; width: 60%; max-width: 500px; border: none; outline: none;">
+  <button-url id="load-url-btn">Load URL</button>
+</div>
+
+
+  <script>
+    const menuToggle =
+  // Sidebar toggle
+  document.getElementById("menu-toggle").addEventListener("click", function () {
+    document.getElementById("sidebar").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+  });
+
+  document.getElementById("overlay").addEventListener("click", function () {
+    document.getElementById("sidebar").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+  });
+
+  // Device toggle
+  const previewBox = document.getElementById("preview-box");
+  document.getElementById("mobile-btn").addEventListener("click", function () {
+    previewBox.classList.remove("desktop-frame");
+    previewBox.classList.add("mobile-frame");
+    this.classList.add("active");
+    document.getElementById("desktop-btn").classList.remove("active");
+  });
+
+  document.getElementById("desktop-btn").addEventListener("click", function () {
+    previewBox.classList.remove("mobile-frame");
+    previewBox.classList.add("desktop-frame");
+    this.classList.add("active");
+    document.getElementById("mobile-btn").classList.remove("active");
+  });
+
+  // Load URL
+  document.getElementById("load-url-btn").addEventListener("click", function () {
+    const url = document.getElementById("url-input").value;
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      document.getElementById("output-frame").src = url;
+    } else {
+      alert("Please enter a valid full URL (e.g., https://example.com)");
+    }
+  });
+</script>
+  <footer class="site-footer">
+  <div class="footer-links">
+    <a href="weburl view_About.html">About</a> |
+    <a href="weburl view_Privacy.html">Privacy Policy</a> |
+    <a href="weburl view_Disclaimer.html">Disclaimer</a> |
+    <a href="weburl view_T&c.html">T&C</a>
+  </div>
+  <div class="footer-copy">
+    &copy; 2025 WebURL View. All rights reserved.
+  </div>
+</footer>
+</body>
+</html>

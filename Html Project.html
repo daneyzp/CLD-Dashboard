@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Html Project</title>
+  <style>
+   * {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+}
+body {
+  font-family: Arial, sans-serif;
+  background: #1e1e1e;
+  color: white;
+}
+header {
+      background: #222;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      position: relative;
+      z-index: 10;
+    }
+.menu-toggle {
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 15px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #333;
+      color: white;
+      transition: left 0.3s;
+      padding: 20px;
+      z-index: 1000;           
+    }    
+    .sidebar.active {
+      left: 0;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
+    .overlay.active {
+      display: block;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+      padding: 10px 20px;
+    }
+.buttons {
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px;
+}
+.buttons.top-buttons {
+  justify-content: flex-start;
+  border-radius: 3px;
+}
+.buttons.run-button {
+  justify-content: center;
+  padding-top: 15px;
+  .buttons.run-button:active {
+    transform: scale(0.95);
+  }
+  
+}
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 3px;
+  -webkit-tap-highlight-color: transparent;
+}
+button-run {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      background: #444;
+      color: white;
+      font-family: bold;
+      border-radius: 3px;
+      -webkit-tap-highlight-color: transparent;
+      }
+      button-run:active {
+          transform: scale(0.95);
+      }
+    button.active {
+      background: #1e90ff;
+      }
+.preview-screen {
+  width: 100%;
+  border: 2px solid #444;
+  border-radius: 5px;
+  overflow: auto;
+  background: white;
+  margin: auto;
+}
+.desktop-frame {
+  width: 1024px;
+  height: 600px;
+}
+.mobile-frame {
+  width: 375px;
+  height: 667px;
+}
+.editor-container {
+  padding: 20px;
+  max-width: 1024px;
+  margin: auto;
+}
+.editor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #2d2d2d;
+  border: 1px solid #555;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.editor-title {
+  background: #444;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editor-title input[type="text"] {
+  flex: 1;
+  background:#444;
+  color:#fff;
+  border:none;
+  border-radius:3px;
+  padding:4px 8px;
+  font-weight:bold;
+}
+.editor textarea {
+  height: 400px;
+  background: #1e1e1e;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  resize: vertical;
+  font-family: monospace;
+  font-size: 14px;
+  border-radius: 0 0 5px 5px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.editor .close-btn {
+  background: ;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.add-editor-btn {
+  margin: 0;  
+  padding: 8px 16px;
+  background: #444;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.add-editor-btn:active {
+    transform: scale(0.95);
+    }
+/* Image container styles */
+.image-insert-section {
+  max-width: 1024px;
+  margin: 20px auto 40px auto;
+  padding: 0 20px;
+}
+.image-container-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.image-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: #2d2d2d;
+  border: 2px dashed #666;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 36px;
+  user-select: none;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+}
+.image-container:hover {
+    color: orange;
+}
+.image-container img {
+  max-width: 70px;
+  max-height: 70px;
+  display: block;
+  border-radius: 5px;
+}
+.image-container .remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  display: none;
+  user-select: none;
+  z-index: 2;
+}
+.image-container.has-image {
+  border: none;
+  cursor: default;
+  color: transparent;
+}
+.image-container.has-image .remove-btn {
+  display: block;
+}
+.image-label {
+  margin-top: 5px;
+  font-size: 12px;
+  text-align: center;
+  color: #ccc;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.image-container input.rename-input {
+  width: 100%;
+  padding: 3px 6px;
+  font-size: 12px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 3px;
+  background: #333;
+  color: white;
+  text-align: center;
+  outline: none;
+  box-sizing: border-box;
+  display: none;
+}
+.image-container.has-image input.rename-input {
+  display: block;
+}
+@media (max-width: 768px) {
+  .desktop-frame {
+    width: 100%;
+    max-width: 100%;
+    height: 400px;
+  }
+  .mobile-frame {
+    width: 375px;
+    max-width: 100%;
+    height: 667px;
+  }
+  .editor textarea {
+    height: 300px;
+  }
+  .image-container {
+    width: 90px;
+    height: 90px;
+    font-size: 28px;
+  }  
+      .editor {
+        flex: 1 1 100%;
+      }
+      .editor textarea {
+        height: 250px;
+      }
+      .tool-links {
+  list-style: none;
+  padding: 10px 0;
+}
+.tool-links li {
+  margin-bottom: 8px;
+}
+.tool-links a {
+  color: white;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.tool-links a:hover {
+  text-decoration: none;
+  color: #1e90ff;
+}
+.social-text {
+        margin-top: 5px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;    
+      -webkit-tap-highlight-color: transparent;  
+    }
+    .social-icons svg {
+      transition: transform 0.2s;
+    }
+    .social-icons a:hover svg {
+      transform: scale(1.2);
+    }
+.site-footer {
+  background: #222;
+  padding: 20px;
+  text-align: center;
+  color: #ccc;
+  margin-top: 30px;
+  border-top: 1px solid #444;
+}
+.site-footer a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.site-footer a:hover {
+  text-decoration: none;
+  color: #1e90ff;
+}
+.footer-copy {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+} 
+  </style>
+  <style>
+      @media (min-width: 769px) {
+  .tool-links {
+    list-style: none;
+  padding: 10px 0;
+  }
+
+  .tool-links li {
+    margin-bottom: 8px;
+    text-decoration: none;
+  }
+
+  .tool-links a {
+    display: block;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+    text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+  }
+
+  .tool-links a:hover {
+    color: #1e90ff;
+    text-decoration: none;
+  }
+.social-text {
+        margin-top: 5px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;    
+      -webkit-tap-highlight-color: transparent;  
+    }
+    .social-icons svg {
+      transition: transform 0.2s;
+    }
+    .social-icons a:hover svg {
+      transform: scale(1.2);
+    }
+  .site-footer {
+    padding: 30px;
+    text-align: center;
+    background: #1c1c1c;
+    border-top: 1px solid #444;
+    color: #ccc;
+  }
+
+  .site-footer a {
+    color: #aaa;
+    margin: 0 10px;
+    text-decoration: none;
+          -webkit-tap-highlight-color: transparent;
+  }
+
+  .site-footer a:hover {
+    color: #1e90ff;
+    text-decoration: none;
+  }
+
+  .footer-copy {
+    margin-top: 15px;
+    font-size: 15px;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <h2>Tools</h2>
+    <ul class="tool-links">      
+<li><a href="index.html"><h5><b>•</b> Dashboard</h5></a></li>
+      <li><a href="WebUrl view.html"><h5><b>•</b> WebURL View</h5></a></li>
+      <li><a href="Code View.html"><h5><b>•</b> Code View</h5></a></li>            
+    </ul>
+   <div class="social-text"><h3>Follow Us</h3></div>
+    <div class="social-icons">
+      <a href="https://twitter.com/yourprofile" target="_blank" aria-label="Twitter">
+        <svg height="24" width="24" fill="white" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 0 0 1.88-2.37 8.6 8.6 0 0 1-2.72 1.03 4.3 4.3 0 0 0-7.37 3.93 12.17 12.17 0 0 1-8.83-4.48 4.3 4.3 0 0 0 1.33 5.73 4.3 4.3 0 0 1-1.95-.54v.05a4.3 4.3 0 0 0 3.45 4.2 4.3 4.3 0 0 1-1.94.07 4.3 4.3 0 0 0 4.01 2.98A8.63 8.63 0 0 1 2 19.55a12.18 12.18 0 0 0 6.59 1.93c7.9 0 12.23-6.56 12.23-12.24l-.01-.56A8.68 8.68 0 0 0 24 5.2a8.43 8.43 0 0 1-2.54.7z"/></svg>
+      </a>
+      <a href="https://github.com/yourprofile" target="_blank" aria-label="GitHub">
+        <svg height="24" width="24" fill="white" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.38 0 12a12 12 0 0 0 8.2 11.44c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61a3.2 3.2 0 0 0-1.34-1.76c-1.1-.76.09-.75.09-.75a2.53 2.53 0 0 1 1.85 1.25 2.54 2.54 0 0 0 3.47 1 2.54 2.54 0 0 1 .76-1.6c-2.67-.3-5.48-1.34-5.48-5.95a4.65 4.65 0 0 1 1.24-3.23 4.3 4.3 0 0 1 .12-3.19s1-.32 3.3 1.24a11.4 11.4 0 0 1 6 0c2.3-1.56 3.3-1.24 3.3-1.24a4.3 4.3 0 0 1 .12 3.19 4.65 4.65 0 0 1 1.24 3.23c0 4.62-2.81 5.65-5.49 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58A12 12 0 0 0 24 12c0-6.62-5.37-12-12-12z"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <header>
+    <span class="menu-toggle" id="menu-toggle">&#9776;</span>
+    <h1>Html Project</h1>
+  </header>
+
+<div class="buttons top-buttons">
+  <button id="mobile-btn">Mobile</button>
+  <button id="desktop-btn" class="active">Desktop</button>
+</div>
+
+<div class="preview-screen desktop-frame" id="preview-box">
+  <iframe id="output-frame" style="width:100%; height:100%; border:none;"></iframe>
+</div>
+
+<div class="buttons run-button">
+  <button-run id="run-btn">Run</button>
+</div>
+
+<div class="image-insert-section">  
+  <div class="image-container-list" id="image-container-list"></div>
+</div>
+
+<div class="buttons">
+  <button id="add-editor-btn" class="add-editor-btn">+ New Editor</button>
+</div> 
+ 
+<div class="editor-container" id="editor-container"></div>
+
+<script>
+const menuToggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const mobileBtn = document.getElementById('mobile-btn');
+const desktopBtn = document.getElementById('desktop-btn');
+const previewBox = document.getElementById('preview-box');
+const runBtn = document.getElementById('run-btn');
+const editorContainer = document.getElementById('editor-container');
+const addEditorBtn = document.getElementById('add-editor-btn');
+const imageContainerList = document.getElementById('image-container-list');
+const outputFrame = document.getElementById('output-frame');
+
+let editorCount = 0;
+let imageDataList = [];
+
+function createEditor(initialCode = '', name = 'index.html') {
+  editorCount++;
+  const editorDiv = document.createElement('div');
+  editorDiv.classList.add('editor');
+  editorDiv.dataset.editorId = editorCount;
+
+  editorDiv.innerHTML = `
+    <div class="editor-title">
+      <input type="text" value="${name}" title="Rename file" />
+      <span class="close-btn" title="Close Editor">&times;</span>
+    </div>
+    <textarea spellcheck="false">${initialCode}</textarea>
+  `;
+
+  editorDiv.querySelector('.close-btn').addEventListener('click', () => {
+    editorDiv.remove();
+  });
+
+  editorContainer.appendChild(editorDiv);
+  return editorDiv;
+}
+
+function getEditorCode(filename) {
+  const editors = editorContainer.querySelectorAll('.editor');
+  for (const editor of editors) {
+    const name = editor.querySelector('input').value.trim();
+    if (name === filename) {
+      return editor.querySelector('textarea').value;
+    }
+  }
+  return '';
+}
+
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('active');
+  overlay.classList.remove('active');
+});
+
+mobileBtn.addEventListener('click', () => {
+  previewBox.className = 'preview-screen mobile-frame';
+  mobileBtn.classList.add('active');
+  desktopBtn.classList.remove('active');
+});
+
+desktopBtn.addEventListener('click', () => {
+  previewBox.className = 'preview-screen desktop-frame';
+  desktopBtn.classList.add('active');
+  mobileBtn.classList.remove('active');
+});
+
+runBtn.addEventListener('click', () => {
+  loadPage('index.html');
+});
+
+window.loadPage = function (filename) {
+  const htmlCodeRaw = getEditorCode(filename);
+  const cssCode = getEditorCode('style.css');
+  const jsCode = getEditorCode('script.js');
+
+  // Replace <img src="..."> with matching uploaded image dataURL
+  let htmlCode = htmlCodeRaw.replace(/<img\s+[^>]*src=["']([^"']+)["'][^>]*>/gi, (match, src) => {
+    const matchedImg = imageDataList.find(img => img && img.name === src);
+    if (matchedImg) {
+      return match.replace(src, matchedImg.dataURL);
+    }
+    return match;
+  });
+
+  // Handle internal links to switch between virtual pages
+  htmlCode = htmlCode.replace(/<a\s+href=["']([^"']+)["']\s*>/gi, (match, href) => {
+    if (href.startsWith('http') || href.startsWith('#')) {
+      return `<a href="${href}">`;
+    } else {
+      return `<a href="${href}" onclick="event.preventDefault(); window.parent.loadPage('${href}')">`;
+    }
+  });
+
+  const combined = `
+    <html>
+      <head>
+        <style>${cssCode}</style>
+      </head>
+      <body>
+        ${htmlCode}
+        <script>${jsCode}<\/script>
+      </body>
+    </html>
+  `;
+
+  const blob = new Blob([combined], { type: 'text/html' });
+  outputFrame.src = URL.createObjectURL(blob);
+};
+
+addEditorBtn.addEventListener('click', () => {
+  createEditor('', `file${editorCount + 1}.txt`);
+});
+
+// Initial editors
+createEditor('<h1>Hello World</h1><a href="page1.html">Go to Page 1</a><br><img src="Image 1" width="150">', 'index.html');
+createEditor('<p>This is Page 1</p><a href="index.html">Back to Home</a>', 'page1.html');
+createEditor('body { background: lightblue; }', 'style.css');
+createEditor('console.log("JS Loaded");', 'script.js');
+
+// Image Upload Section
+function createImageContainer(index) {
+  const container = document.createElement('div');
+  container.classList.add('image-container');
+
+  container.innerHTML = `
+    <span class="remove-btn" title="Remove Image">&times;</span>
+    <span class="upload-icon">+</span>
+    <div class="image-label">Image ${index + 1}</div>
+    <input type="file" accept="image/*" style="display:none;" />
+    <input type="text" class="rename-input" value="Image ${index + 1}" />
+  `;
+
+  const fileInput = container.querySelector('input[type="file"]');
+  const renameInput = container.querySelector('.rename-input');
+  const imageLabel = container.querySelector('.image-label');
+  const removeBtn = container.querySelector('.remove-btn');
+
+  container.addEventListener('click', () => {
+    if (!container.classList.contains('has-image')) {
+      fileInput.click();
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataURL = e.target.result;
+        const img = new Image();
+        img.src = dataURL;
+
+        img.onload = () => {
+          container.innerHTML = '';
+          container.appendChild(removeBtn);
+          container.appendChild(img);
+          container.appendChild(renameInput);
+          container.classList.add('has-image');
+
+          imageDataList[index] = {
+            name: renameInput.value.trim(),
+            dataURL: dataURL
+          };
+
+          const currentContainers = document.querySelectorAll('.image-container');
+          if (currentContainers.length < 6 && currentContainers[currentContainers.length - 1] === container) {
+            createImageContainer(currentContainers.length);
+          }
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    imageDataList[index] = null;
+    container.remove();
+  });
+
+  renameInput.addEventListener('input', () => {
+    imageLabel.textContent = renameInput.value;
+    if (imageDataList[index]) {
+      imageDataList[index].name = renameInput.value;
+    }
+  });
+
+  imageContainerList.appendChild(container);
+}
+
+// Start with one image container
+createImageContainer(0);
+</script>
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="html project_About.html">About</a> |
+    <a href="html project_Privacy.html">Privacy Policy</a> |
+    <a href="html project_Disclaimer.html">Disclaimer</a> |
+    <a href="html project_T&c.html">T&C</a>
+  </div>
+  <div class="footer-copy">
+    &copy; 2025 Html Project. All rights reserved.
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<style>
+.page-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-container h1 {
+  color: #0077cc;
+  font-size: 2em;
+  margin-bottom: 20px;
+  animation: fadeScale 1s ease;
+}
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.page-container p {
+  margin: 10px 0;
+}
+.back-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 20px;
+  background: #0077cc;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+.back-btn:hover {
+  background: #005fa3;
+}
+</style>
+
+<div class="page-container">
+  <h1>Disclaimer</h1>
+  <p>All content and tools provided on this site are intended for general utility and informational purposes only.</p>
+  <p>We do not guarantee the availability, accuracy, or reliability of the services. Use at your own discretion.</p>
+  <p>We are not responsible for any direct or indirect damage or data loss caused by the use of this website.</p>
+  <a href="Code View.html" class="back-btn">Back Home</a>
+</div>

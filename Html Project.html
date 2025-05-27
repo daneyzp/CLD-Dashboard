@@ -553,7 +553,6 @@ window.loadPage = function (filename) {
   const cssCode = getEditorCode('style.css');
   const jsCode = getEditorCode('script.js');
 
-  // Replace <img src="..."> with matching uploaded image dataURL
   let htmlCode = htmlCodeRaw.replace(/<img\s+[^>]*src=["']([^"']+)["'][^>]*>/gi, (match, src) => {
     const matchedImg = imageDataList.find(img => img && img.name === src);
     if (matchedImg) {
@@ -562,18 +561,19 @@ window.loadPage = function (filename) {
     return match;
   });
 
-  // Handle internal links to switch between virtual pages
-  htmlCode = htmlCode.replace(/<a\s+href=["']([^"']+)["']\s*>/gi, (match, href) => {
+  htmlCode = htmlCode.replace(/<a\s+href=["']([^"']+)["'][^>]*>/gi, (match, href) => {
     if (href.startsWith('http') || href.startsWith('#')) {
       return `<a href="${href}">`;
     } else {
-      return `<a href="${href}" onclick="event.preventDefault(); window.parent.loadPage('${href}')">`;
+      return `<a href="${href}" onclick="event.preventDefault(); loadPage('${href}')">`;
     }
   });
 
   const combined = `
+    <!DOCTYPE html>
     <html>
       <head>
+        <meta charset="UTF-8">
         <style>${cssCode}</style>
       </head>
       <body>
@@ -583,8 +583,8 @@ window.loadPage = function (filename) {
     </html>
   `;
 
-  const blob = new Blob([combined], { type: 'text/html' });
-  outputFrame.src = URL.createObjectURL(blob);
+  outputFrame.removeAttribute('src');
+  outputFrame.srcdoc = combined;
 };
 
 addEditorBtn.addEventListener('click', () => {

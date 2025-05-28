@@ -137,7 +137,7 @@ button-run {
   background: #444;
   padding: 5px 10px;
   font-weight: bold;
-  border-radius: 5px 5px 0 0;
+  border-radius: 4px 4px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -353,7 +353,16 @@ button-run {
   margin-top: 10px;
   font-size: 14px;
 }
-
+.add-editor-btn {
+  margin: 0;  
+  padding: 8px 16px;
+  background: #444;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.add-editor-btn:active {
+    transform: scale(0.95);
+    }
 } 
   </style>
   <style>
@@ -396,7 +405,7 @@ button-run {
     }
     .social-icons a:hover svg {
       transform: scale(1.2);
-    }
+    }     
   .site-footer {
     padding: 30px;
     text-align: center;
@@ -421,6 +430,66 @@ button-run {
     margin-top: 15px;
     font-size: 15px;
   }
+   .editor {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #2d2d2d;
+  border: 3px solid #555;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.editor-title {
+  background: #444;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 2px 2px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editor textarea {
+  height: 400px;
+  background: #1e1e1e;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  resize: vertical;
+  font-family: monospace;
+  font-size: 10px;
+  border-radius: 0 0 5px 5px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.add-editor-btn {
+  margin: 0 2%;  
+  padding: 8px 16px;
+  background: #444;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.add-editor-btn:active {
+    transform: scale(0.95);
+    }
+}
+@media (max-width: 4000px) {
+.add-editor-btn {
+margin: 0;
+  padding: 8px 16px;
+  background: #444;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;  
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  user-select: none;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+}
+.add-editor-btn:active {
+    transform: scale(0.95);
+    }
 }
   </style>
 </head>
@@ -553,6 +622,7 @@ window.loadPage = function (filename) {
   const cssCode = getEditorCode('style.css');
   const jsCode = getEditorCode('script.js');
 
+  // Replace <img src="..."> with matching uploaded image dataURL
   let htmlCode = htmlCodeRaw.replace(/<img\s+[^>]*src=["']([^"']+)["'][^>]*>/gi, (match, src) => {
     const matchedImg = imageDataList.find(img => img && img.name === src);
     if (matchedImg) {
@@ -561,19 +631,18 @@ window.loadPage = function (filename) {
     return match;
   });
 
-  htmlCode = htmlCode.replace(/<a\s+href=["']([^"']+)["'][^>]*>/gi, (match, href) => {
+  // Handle internal links to switch between virtual pages
+  htmlCode = htmlCode.replace(/<a\s+href=["']([^"']+)["']\s*>/gi, (match, href) => {
     if (href.startsWith('http') || href.startsWith('#')) {
       return `<a href="${href}">`;
     } else {
-      return `<a href="${href}" onclick="event.preventDefault(); loadPage('${href}')">`;
+      return `<a href="${href}" onclick="event.preventDefault(); window.parent.loadPage('${href}')">`;
     }
   });
 
   const combined = `
-    <!DOCTYPE html>
     <html>
       <head>
-        <meta charset="UTF-8">
         <style>${cssCode}</style>
       </head>
       <body>
@@ -583,8 +652,8 @@ window.loadPage = function (filename) {
     </html>
   `;
 
-  outputFrame.removeAttribute('src');
-  outputFrame.srcdoc = combined;
+  const blob = new Blob([combined], { type: 'text/html' });
+  outputFrame.src = URL.createObjectURL(blob);
 };
 
 addEditorBtn.addEventListener('click', () => {

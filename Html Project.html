@@ -174,7 +174,11 @@ button-run {
   cursor: pointer;
   font-weight: bold;
   margin-left: 10px;
+   -webkit-tap-highlight-color: transparent;
 }
+.close-btn:hover {
+	color: #1e90ff;
+	}
 .add-editor-btn {
   margin: 0;  
   padding: 8px 16px;
@@ -331,6 +335,18 @@ button-run {
     .social-icons a:hover svg {
       transform: scale(1.2);
     }
+
+.add-editor-btn {
+  margin: 0;  
+  padding: 8px 16px;
+  background: #444;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.add-editor-btn:active {
+    transform: scale(0.95);
+    }
+} 
 .site-footer {
   background: #222;
   padding: 20px;
@@ -353,17 +369,6 @@ button-run {
   margin-top: 10px;
   font-size: 14px;
 }
-.add-editor-btn {
-  margin: 0;  
-  padding: 8px 16px;
-  background: #444;
-  border-radius: 3px;
-  cursor: pointer;
-}
-.add-editor-btn:active {
-    transform: scale(0.95);
-    }
-} 
   </style>
   <style>
       @media (min-width: 769px) {
@@ -472,7 +477,7 @@ button-run {
     transform: scale(0.95);
     }
 }
-@media (max-width: 4000px) {
+@media (max-width: 10000px) {
 .add-editor-btn {
 margin: 0;
   padding: 8px 16px;
@@ -617,12 +622,11 @@ runBtn.addEventListener('click', () => {
   loadPage('index.html');
 });
 
-window.loadPage = function (filename) {
+function loadPage(filename) {
   const htmlCodeRaw = getEditorCode(filename);
   const cssCode = getEditorCode('style.css');
   const jsCode = getEditorCode('script.js');
 
-  // Replace <img src="..."> with matching uploaded image dataURL
   let htmlCode = htmlCodeRaw.replace(/<img\s+[^>]*src=["']([^"']+)["'][^>]*>/gi, (match, src) => {
     const matchedImg = imageDataList.find(img => img && img.name === src);
     if (matchedImg) {
@@ -631,30 +635,38 @@ window.loadPage = function (filename) {
     return match;
   });
 
-  // Handle internal links to switch between virtual pages
   htmlCode = htmlCode.replace(/<a\s+href=["']([^"']+)["']\s*>/gi, (match, href) => {
     if (href.startsWith('http') || href.startsWith('#')) {
       return `<a href="${href}">`;
     } else {
-      return `<a href="${href}" onclick="event.preventDefault(); window.parent.loadPage('${href}')">`;
+      return `<a href="#" onclick="window.parent.postMessage({ page: '${href}' }, '*')">`;
     }
   });
 
   const combined = `
+    <!DOCTYPE html>
     <html>
-      <head>
-        <style>${cssCode}</style>
-      </head>
-      <body>
-        ${htmlCode}
-        <script>${jsCode}<\/script>
-      </body>
+    <head>
+      <style>${cssCode}</style>
+    </head>
+    <body>
+      ${htmlCode}
+      <script>
+        ${jsCode}
+      <\/script>
+    </body>
     </html>
   `;
 
-  const blob = new Blob([combined], { type: 'text/html' });
-  outputFrame.src = URL.createObjectURL(blob);
-};
+  outputFrame.srcdoc = combined;
+}
+
+// Listen for virtual page navigation from inside iframe
+window.addEventListener('message', (event) => {
+  if (event.data && event.data.page) {
+    loadPage(event.data.page);
+  }
+});
 
 addEditorBtn.addEventListener('click', () => {
   createEditor('', `file${editorCount + 1}.txt`);
@@ -666,7 +678,7 @@ createEditor('<p>This is Page 1</p><a href="index.html">Back to Home</a>', 'page
 createEditor('body { background: lightblue; }', 'style.css');
 createEditor('console.log("JS Loaded");', 'script.js');
 
-// Image Upload Section
+// Image upload containers
 function createImageContainer(index) {
   const container = document.createElement('div');
   container.classList.add('image-container');
